@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<p align="center">
+  <img src="app/icon.svg" width="96" alt="">
+</p>
 
-## Getting Started
+<h1 align="center">Edijs Zvirgzds</h1>
 
-First, run the development server:
+<p align="center">
+  My portfolio, built to look and work like a desktop file manager: projects live in
+  coloured folders you can open, peek into and search.
+</p>
+
+<p align="center">
+  <a href="https://edijs-zvirgzds.vercel.app"><b>Open the site</b></a>
+  ·
+  <a href="#run-it-yourself">Run it yourself</a>
+  ·
+  <a href="https://github.com/Supred502/EdijsZvirgzds/issues/new">Report a problem</a>
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/home.png" alt="Documents folder with the sidebar and info panel" width="800">
+</p>
+
+## Features
+
+**Browsing**
+- Folders inside folders, each with its own colour and icon, starting from Documents
+- Hover a folder to see what's inside in a pop-up; click anything in it to open it
+- Single click shows details in the side panel, double click opens
+- Icons or details view, back/forward, clickable path bar and search
+- Sidebar with Places, Pinned projects, the folder tree and recently changed folders
+
+**Projects**
+- Project pages with cover, gallery, Markdown write-up and links
+- Live GitHub info: stars, language, last push and the repo's top-level files
+- Locked folders and projects: visible with a lock, contents stay private
+
+**Admin**
+- Login with password plus an authenticator app (2FA)
+- Add and edit projects, folders and Markdown documents with a live preview
+- Import a project's name and details from a GitHub link
+- Drag to reorder, publish/draft and feature toggles, image uploads
+
+**Everywhere**
+- Works on phones, with a slide-out menu
+- Share previews, sitemap and a custom 404 page
+
+## Screenshots
+
+| | |
+|---|---|
+| ![A folder of projects](docs/screenshots/code.png) | ![A project page](docs/screenshots/project.png) |
+
+## Run it yourself
+
+You need [Node.js](https://nodejs.org) 22 or newer and a free [Supabase](https://supabase.com) project.
+
+1. In Supabase, create your user under **Authentication → Users**, copy its UID, then turn off new sign-ups.
+2. Open **SQL Editor** and run these files from `supabase/` in order: `schema.sql` (put your UID in place
+   of the all-zeros one first), `002_folders.sql`, `003_fixes.sql`, `004_hardening.sql`.
+   `seed.sql` adds optional sample projects.
+3. Copy `.env.example` to `.env.local` and fill in your Supabase URL and publishable key.
+   `GITHUB_TOKEN` (a read-only token for public repos) is optional and raises GitHub's rate limit.
+4. Start it:
+
+   ```bash
+   npm install
+   npm run dev
+   ```
+
+   Open http://localhost:3000, and http://localhost:3000/admin to log in and set up 2FA.
+
+To put it online, import the repo into [Vercel](https://vercel.com) and add the same environment variables.
+
+## Tests
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm test        # input validation and folder-tree logic
+npm run lint
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Built with
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Next.js 16 (App Router), React 19, Tailwind CSS 4, Motion, Supabase (Postgres with row-level security, Auth, Storage), deployed on Vercel.
