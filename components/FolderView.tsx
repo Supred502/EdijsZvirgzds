@@ -2,10 +2,10 @@
 
 import { AnimatePresence, motion, type Variants } from "motion/react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, ViewTransition } from "react";
 import { ItemIcon } from "@/components/ItemIcon";
-import { select, useSelected } from "@/components/selection";
+import { select, usePath, useSelected } from "@/components/selection";
 import { useViewMode } from "@/components/view-mode";
 import { contents, formatDate, hrefOf, type Item, keyOf, nameOf, plural, type Tree, typeOf } from "@/lib/tree";
 import { FileText } from "lucide-react";
@@ -30,7 +30,7 @@ export function FolderView({
   repos?: Record<string, RepoEntry[]>; // project id → top of its GitHub repo, shown in the hover peek
   morph?: boolean;
 }) {
-  const pathname = usePathname();
+  const pathname = usePath();
   const router = useRouter();
   const selected = useSelected(pathname);
   const mode = useViewMode();
@@ -86,7 +86,7 @@ type ItemProps = { item: Item; tree: Tree; selected: boolean; morph: boolean; op
 
 // A link (so middle-click / new tab still work) where a plain click only selects
 function ItemLink({ item, tree, open, className, children }: Omit<ItemProps, "selected" | "morph"> & { className: string; children: React.ReactNode }) {
-  const pathname = usePathname();
+  const pathname = usePath();
   const href = hrefOf(tree, item);
   const props = {
     className,

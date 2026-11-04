@@ -68,10 +68,12 @@ function Row({ project: p, onDrop, children }: { project: Project; onDrop: () =>
         ⠿
       </span>
       {children}
-      <div className="min-w-0 flex-1">
+      <div className="min-w-0 flex-1 basis-40">
         <Link href={`/admin/projects/${p.id}`} className="font-medium hover:text-accent">{p.title}</Link>
         <p className="truncate text-sm text-text-dim">/{p.slug}</p>
       </div>
+      {/* On phones the buttons drop to their own line under the name */}
+      <div className="flex w-full flex-wrap gap-2 sm:w-auto">
       <form action={setFlag.bind(null, p.id, "published", !p.published)}>
         <button className={`btn w-24 ${p.published ? "btn-on" : ""}`} aria-pressed={p.published}>
           {p.published ? "Published" : "Draft"}
@@ -84,6 +86,7 @@ function Row({ project: p, onDrop, children }: { project: Project; onDrop: () =>
       </form>
       <Link href={`/admin/projects/${p.id}`} className="btn w-20">Edit</Link>
       <DeleteButton id={p.id} title={p.title} />
+      </div>
     </Reorder.Item>
   );
 }

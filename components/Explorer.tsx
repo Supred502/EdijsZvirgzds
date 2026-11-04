@@ -4,11 +4,12 @@ import { ChevronLeft, ChevronRight, House, LayoutGrid, List, Mail, PanelLeft, Se
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
 import { FolderIcon } from "@/components/FolderIcon";
 import { ItemIcon } from "@/components/ItemIcon";
-import { select, useSelected } from "@/components/selection";
+import { select, usePath, useSelected } from "@/components/selection";
 import { setViewMode, useViewMode } from "@/components/view-mode";
 import { createClient } from "@/lib/supabase/client";
 import {
@@ -21,10 +22,11 @@ import {
 export type Me = { name: string; avatar: string | null };
 
 const EASE = [0.22, 1, 0.36, 1] as const;
+const noop = () => () => {};
 
 // Where the visitor is, worked out from the URL
 function useHere(tree: Tree) {
-  const pathname = usePathname();
+  const pathname = usePath();
   const [section, ...rest] = pathname.split("/").filter(Boolean);
   if (section === "f") {
     const r = resolvePath(tree, rest);
@@ -154,6 +156,7 @@ export function PathBar({ tree, me }: { tree: Tree; me: Me }) {
   const here = useHere(tree);
   const mode = useViewMode();
   const [drawer, setDrawer] = useState(false);
+  const mounted = useSyncExternalStore(noop, () => true, () => false); // document.body exists only in the browser
 
   useEffect(() => {
     if (!drawer) return;
@@ -231,7 +234,8 @@ export function PathBar({ tree, me }: { tree: Tree; me: Me }) {
       <Search tree={tree} />
       <AdminLink className={iconBtn} />
 
-      <AnimatePresence>
+      {/* Portal: the header's backdrop-blur would otherwise trap these "fixed" layers inside the header */}
+      {mounted && createPortal(<AnimatePresence>
         {drawer && (
           <>
             <motion.div
@@ -254,7 +258,7 @@ export function PathBar({ tree, me }: { tree: Tree; me: Me }) {
             </motion.aside>
           </>
         )}
-      </AnimatePresence>
+      </AnimatePresence>, document.body)}
     </header>
   );
 }

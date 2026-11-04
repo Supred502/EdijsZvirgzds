@@ -1,6 +1,13 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useSyncExternalStore } from "react";
+
+// The current path. Vercel prerenders the home page as "/index", which made the server and browser disagree.
+export function usePath() {
+  const p = usePathname();
+  return p === "/index" ? "/" : p;
+}
 
 // Which item is selected (single click), remembered per page so it clears when you move on.
 type Selection = { path: string; key: string } | null;
