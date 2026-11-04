@@ -74,18 +74,18 @@ function Row({ project: p, onDrop, children }: { project: Project; onDrop: () =>
       </div>
       {/* On phones the buttons drop to their own line under the name */}
       <div className="flex w-full flex-wrap gap-2 sm:w-auto">
-      <form action={setFlag.bind(null, p.id, "published", !p.published)}>
-        <button className={`btn w-24 ${p.published ? "btn-on" : ""}`} aria-pressed={p.published}>
-          {p.published ? "Published" : "Draft"}
-        </button>
-      </form>
-      <form action={setFlag.bind(null, p.id, "featured", !p.featured)}>
-        <button className={`btn w-24 ${p.featured ? "btn-on" : ""}`} aria-pressed={p.featured}>
-          {p.featured ? "★ Featured" : "☆ Feature"}
-        </button>
-      </form>
-      <Link href={`/admin/projects/${p.id}`} className="btn w-20">Edit</Link>
-      <DeleteButton id={p.id} title={p.title} />
+        <form action={setFlag.bind(null, p.id, "published", !p.published)}>
+          <button className={`btn w-24 ${p.published ? "btn-on" : ""}`} aria-pressed={p.published}>
+            {p.published ? "Published" : "Draft"}
+          </button>
+        </form>
+        <form action={setFlag.bind(null, p.id, "featured", !p.featured)}>
+          <button className={`btn w-24 ${p.featured ? "btn-on" : ""}`} aria-pressed={p.featured}>
+            {p.featured ? "★ Featured" : "☆ Feature"}
+          </button>
+        </form>
+        <Link href={`/admin/projects/${p.id}`} className="btn w-20">Edit</Link>
+        <DeleteButton id={p.id} title={p.title} />
       </div>
     </Reorder.Item>
   );

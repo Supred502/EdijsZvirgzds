@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { FolderIcon } from "@/components/FolderIcon";
 import { ItemIcon } from "@/components/ItemIcon";
@@ -156,6 +156,7 @@ export function PathBar({ tree, me }: { tree: Tree; me: Me }) {
   const here = useHere(tree);
   const mode = useViewMode();
   const [drawer, setDrawer] = useState(false);
+  const focusFirstLink = useCallback((el: HTMLElement | null) => el?.querySelector("a")?.focus(), []); // keyboard users land in the menu
   const mounted = useSyncExternalStore(noop, () => true, () => false); // document.body exists only in the browser
 
   useEffect(() => {
@@ -252,6 +253,10 @@ export function PathBar({ tree, me }: { tree: Tree; me: Me }) {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ duration: 0.3, ease: EASE }}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Places"
+              ref={focusFirstLink}
               className="fixed inset-y-0 left-0 z-40 w-64 overflow-y-auto border-r border-line bg-bg md:hidden"
             >
               <PlacesList tree={tree} me={me} id="drawer" onNavigate={() => setDrawer(false)} />

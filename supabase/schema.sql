@@ -1,4 +1,4 @@
--- Run once in Supabase: Dashboard → SQL Editor → paste → Run. Then run 002_folders.sql and 003_fixes.sql.
+-- Run once in Supabase: Dashboard → SQL Editor → paste → Run. Then run 002_folders.sql, 003_fixes.sql and 004_hardening.sql.
 -- BEFORE running: replace 00000000-0000-0000-0000-000000000000 below with your user ID
 -- (Dashboard → Authentication → Users → your user → copy "UID").
 
