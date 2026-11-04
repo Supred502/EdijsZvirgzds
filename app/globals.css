@@ -1,0 +1,121 @@
+@import "tailwindcss";
+
+/* File-manager look: pure-black OLED, hairline borders, single pink accent */
+@theme {
+  --color-bg: #000000;
+  --color-surface: #121212;
+  --color-surface-2: #1e1e1e;
+  --color-text: #f5f5f5;
+  --color-text-dim: #a0a0a0;
+  --color-line: #262626;
+  --color-accent: #ff4f9a;
+  --color-on-accent: #000000;
+  --radius-card: 10px;
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-space-grotesk);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+/* Markdown write-ups on project pages */
+.md h2, .md h3 { font-family: var(--font-display); font-weight: 700; margin: 2rem 0 0.75rem; }
+.md h2 { font-size: 1.5rem; }
+.md h3 { font-size: 1.25rem; }
+.md p, .md ul, .md ol { margin: 0 0 1rem; color: var(--color-text-dim); line-height: 1.7; }
+.md ul { list-style: disc; padding-left: 1.25rem; }
+.md ol { list-style: decimal; padding-left: 1.25rem; }
+.md a { color: var(--color-accent); text-decoration: underline; text-underline-offset: 3px; }
+.md strong { color: var(--color-text); }
+.md code { background: var(--color-surface-2); padding: 0.1em 0.35em; border-radius: 6px; font-size: 0.9em; }
+.md pre { background: var(--color-surface); padding: 1rem; border-radius: 16px; overflow-x: auto; margin-bottom: 1rem; }
+.md pre code { background: none; padding: 0; }
+.md img { border-radius: 16px; }
+
+/* Shared buttons + inputs, Supabase-style: compact, rounded-md, raised surface, press shrinks to 97%.
+   Change these to restyle every button on the site and admin at once. */
+@layer components {
+  .field { @apply flex flex-col gap-1.5 text-sm text-text-dim; }
+  .input {
+    @apply w-full rounded-md border border-[#2e2e2e] bg-[#141414] px-3 py-2 text-sm text-text outline-none transition-[border-color,box-shadow] duration-200;
+    &:focus { border-color: var(--color-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 20%, transparent); }
+  }
+  .btn {
+    @apply relative inline-flex h-[26px] cursor-pointer select-none items-center justify-center gap-1.5 whitespace-nowrap rounded-md border px-2.5 text-xs font-medium text-text;
+    background: #1c1c1c;
+    border-color: #2e2e2e;
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.05), 0 1px 2px rgb(0 0 0 / 0.6);
+    transition: background-color 200ms, border-color 200ms, color 200ms, scale 200ms;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    &:hover { background: #262626; border-color: #3a3a3a; }
+    &:disabled { opacity: 0.5; pointer-events: none; }
+    @media (prefers-reduced-motion: no-preference) { &:active { scale: 0.97; } }
+  }
+  .btn-lg { @apply h-9 px-4 text-sm; }
+  .btn-primary {
+    color: #fff;
+    background: color-mix(in srgb, var(--color-accent) 30%, #000);
+    border-color: color-mix(in srgb, var(--color-accent) 75%, #000);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08), 0 1px 2px rgb(0 0 0 / 0.6);
+    &:hover { background: color-mix(in srgb, var(--color-accent) 42%, #000); border-color: var(--color-accent); }
+  }
+  .btn-on {
+    color: var(--color-accent);
+    border-color: color-mix(in srgb, var(--color-accent) 55%, #000);
+    background: color-mix(in srgb, var(--color-accent) 10%, #111);
+  }
+  .btn-danger:hover { color: #f87171; border-color: rgb(239 68 68 / 0.6); }
+}
+
+/* Page transitions (React <ViewTransition> + browser View Transitions API) */
+::view-transition-group(.morph) { animation-duration: 450ms; animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+::view-transition-image-pair(.morph) { animation-name: via-blur; }
+@keyframes via-blur { 30% { filter: blur(3px); } }
+
+::view-transition-old(.slide-down) { animation: 150ms ease-out both vt-fade reverse, 150ms ease-out both vt-slide-y reverse; }
+::view-transition-new(.slide-up) { animation: 210ms ease-in 150ms both vt-fade, 400ms ease-in both vt-slide-y; }
+
+::view-transition-old(.nav-forward) { --slide-offset: -60px; animation: 150ms ease-in both vt-fade reverse, 400ms ease-in-out both vt-slide reverse; }
+::view-transition-new(.nav-forward) { --slide-offset: 60px; animation: 210ms ease-out 150ms both vt-fade, 400ms ease-in-out both vt-slide; }
+::view-transition-old(.nav-back) { --slide-offset: 60px; animation: 150ms ease-in both vt-fade reverse, 400ms ease-in-out both vt-slide reverse; }
+::view-transition-new(.nav-back) { --slide-offset: -60px; animation: 210ms ease-out 150ms both vt-fade, 400ms ease-in-out both vt-slide; }
+
+@keyframes vt-fade { from { filter: blur(3px); opacity: 0; } to { filter: blur(0); opacity: 1; } }
+@keyframes vt-slide-y { from { transform: translateY(10px); } to { transform: translateY(0); } }
+@keyframes vt-slide { from { translate: var(--slide-offset); } to { translate: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*), ::view-transition-new(*), ::view-transition-group(*) { animation-duration: 0s !important; animation-delay: 0s !important; }
+  html { scroll-behavior: auto; }
+}
+html { scroll-behavior: smooth; }
+
+/* Folder icon: the lid swings open and the page inside is taken out (while its contents are peeked) */
+.folder-lid, .folder-page { transform-box: fill-box; transition: transform 350ms cubic-bezier(0.22, 1, 0.36, 1), opacity 250ms; }
+.folder-lid { transform-origin: 50% 100%; }
+.folder-open .folder-lid { transform: skewX(-12deg) scaleY(0.8); }
+.folder-open .folder-page { transform: translateY(-30%); opacity: 0; }
+@media (prefers-reduced-motion: reduce) { .folder-lid, .folder-page { transition: none; } }
+
+/* Scrollbars: thin dark pill on black, pink when grabbed */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: transparent; }
+::-webkit-scrollbar-thumb { background: #2a2a2a; border: 3px solid transparent; border-radius: 999px; background-clip: padding-box; }
+::-webkit-scrollbar-thumb:hover { background-color: #444; }
+::-webkit-scrollbar-thumb:active { background-color: var(--color-accent); }
+::-webkit-scrollbar-button { display: none; }
+@supports not selector(::-webkit-scrollbar) {
+  * { scrollbar-width: thin; scrollbar-color: #2a2a2a transparent; }
+}
