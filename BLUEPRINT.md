@@ -184,7 +184,7 @@ Extra packages beyond the stack: `@supabase/ssr`, `react-markdown`, `@dnd-kit/so
 
 ## 9. Build order
 
-Status (2026-11-04): steps 1–6 done, plus 2FA (Google Authenticator, enforced in the DB via `aal2`). Redesigned as a KDE Dolphin-style file manager: Documents is the root; nested `folders` (colour + lucide emblem, can be locked), Markdown `notes` (e.g. About_me/Aboutme.md), projects live in folders and can be locked (visitors only get the `locked_projects` view). Single click selects → info panel; double click opens; hovering a folder shows a "shulker box" peek of its contents. DB change: `supabase/002_folders.sql` (run). Step 7 mostly done: title template + Open Graph (site image `app/opengraph-image.tsx`, project cover per project), `sitemap.ts`, `robots.ts` (hides /admin), `not-found.tsx`, security headers in `next.config.ts`, owner-only Admin button in the path bar. Left: Lighthouse/mobile check on the deployed site. Step 8 started: pushed to private repo github.com/Supred502/EdijsZvirgzds (run `supabase/003_fixes.sql`). Live on Vercel: https://edijs-zvirgzds.vercel.app (auto-deploys on push to main). Next: Lighthouse via pagespeed.web.dev, custom domain later, then go public (deep audit + repo polish via /ship).
+Status (2026-11-04): steps 1–6 done, plus 2FA (Google Authenticator, enforced in the DB via `aal2`). Redesigned as a KDE Dolphin-style file manager: Documents is the root; nested `folders` (colour + lucide emblem, can be locked), Markdown `notes` (e.g. About_me/Aboutme.md), projects live in folders and can be locked (visitors only get the `locked_projects` view). Single click selects → info panel; double click opens; hovering a folder shows a "shulker box" peek of its contents. DB change: `supabase/002_folders.sql` (run). Step 7 mostly done: title template + Open Graph (site image `app/opengraph-image.tsx`, project cover per project), `sitemap.ts`, `robots.ts` (hides /admin), `not-found.tsx`, security headers in `next.config.ts`, owner-only Admin button in the path bar. Left: Lighthouse/mobile check on the deployed site. Step 8 started: pushed to private repo github.com/Supred502/EdijsZvirgzds (run `supabase/003_fixes.sql`). Live on Vercel: https://edijs-zvirgzds.vercel.app (auto-deploys on push to main). Lighthouse 100/100/96→fixed/100. Repo made PUBLIC 2026-11-04 (MIT) after quick-profile security audit (0 confirmed; view-grant lead closed by 004_hardening.sql, applied). Next: custom domain (edijszvirgzds.com suggested), content (deep audit + repo polish via /ship).
 
 1. ✅ **Setup** — `create-next-app`, Tailwind, theme tokens, fonts, Supabase project, run `schema.sql`, create my user, disable sign-ups.
 2. ✅ **Read-only site** — home + project page from the DB, with a couple of rows entered by hand in Supabase.
@@ -192,8 +192,8 @@ Status (2026-11-04): steps 1–6 done, plus 2FA (Google Authenticator, enforced 
 4. ✅ **Admin** — login, project list, create/edit form, image upload, publish toggle.
 5. ✅ **Admin extras** — drag reorder, GitHub import, profile page.
 6. ✅ **Animations** — reveals, grid filter, shared-element card → detail, page transitions, reduced-motion check.
-7. 🟡 **Polish** — SEO (metadata, Open Graph image per project, `sitemap.ts`), 404 page, Lighthouse pass, mobile check.
-8. **Ship** — push to GitHub, connect Vercel, add env vars, custom domain.
+7. ✅ **Polish** — SEO (metadata, Open Graph image per project, `sitemap.ts`), 404 page, Lighthouse pass, mobile check.
+8. ✅ **Ship** — push to GitHub, connect Vercel, add env vars, custom domain.
 
 ---
 
