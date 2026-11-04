@@ -11,20 +11,28 @@ export function MotionProvider({ children }: { children: React.ReactNode }) {
 
 // Hero name: letters rise in one after another
 export function HeroName({ first, rest }: { first: string; rest: string }) {
-  const letters = [...`${first} ${rest}`.trim()];
+  const name = `${first} ${rest}`.trim();
+  let i = 0; // running letter index, for the stagger
   return (
-    <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl" aria-label={`${first} ${rest}`.trim()}>
-      {letters.map((ch, i) => (
-        <motion.span
-          key={i}
-          aria-hidden="true"
-          className="inline-block"
-          initial={{ opacity: 0, y: "0.4em" }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: EASE, delay: 0.1 + i * 0.035 }}
-        >
-          {ch === " " ? " " : ch}
-        </motion.span>
+    <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl" aria-label={name}>
+      {/* letters animate one by one; real spaces sit between whole words so they keep their width and can wrap */}
+      {name.split(/\s+/).map((word, w) => (
+        <span key={w} aria-hidden="true">
+          {w > 0 && " "}
+          <span className="inline-block whitespace-nowrap">
+            {[...word].map((ch) => (
+              <motion.span
+                key={i}
+                className="inline-block"
+                initial={{ opacity: 0, y: "0.4em" }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: EASE, delay: 0.1 + i++ * 0.035 }}
+              >
+                {ch}
+              </motion.span>
+            ))}
+          </span>
+        </span>
       ))}
     </h1>
   );
