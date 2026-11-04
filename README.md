@@ -83,3 +83,7 @@ npm run build
 ## Built with
 
 Next.js 16 (App Router), React 19, Tailwind CSS 4, Motion, Supabase (Postgres with row-level security, Auth, Storage), deployed on Vercel.
+
+## License
+
+[MIT](LICENSE). The site's own content (text, photos, project write-ups) lives in the database and isn't part of this repo.
