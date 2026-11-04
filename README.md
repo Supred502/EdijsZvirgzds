@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://edijs-zvirgzds.vercel.app"><b>Open the site</b></a>
+  <a href="https://edijszvirgzds.com"><b>Open the site</b></a>
   ·
   <a href="#run-it-yourself">Run it yourself</a>
   ·
